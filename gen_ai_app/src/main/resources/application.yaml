@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: genAi_chatApp
+client:
+  openai:
+    key: dial-gw1gaf2ivv34ziy04hokk8n9mdn
+    endpoint: https://ai-proxy.lab.epam.com
+    deploymentName: gpt-35-turbo-0125
+server:
+  port: 8082
