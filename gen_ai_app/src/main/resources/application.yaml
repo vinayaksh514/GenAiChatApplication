@@ -12,3 +12,4 @@ server:
 epam:
   dial:
     deployment-names-api: https://ai-proxy.lab.epam.com/openai/deployments
+
