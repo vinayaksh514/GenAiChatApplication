@@ -39,7 +39,7 @@ public class SimpleKernelHistory {
             .withPromptExecutionSettings(
                 PromptExecutionSettings.builder()
                     .withTemperature(Optional.ofNullable(chat.getTemperature()).orElse(0D))
-                    .withMaxTokens(Optional.of(chat.getMaxTokens()).orElse(1000))
+                    .withMaxTokens(Optional.of(chat.getMaxTokens()).orElse(500))
                     .withStopSequences(
                         Optional.ofNullable(chat.getStopSequences()).orElse(List.of()))
                     .build())

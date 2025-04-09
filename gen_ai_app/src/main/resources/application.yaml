@@ -8,3 +8,8 @@ client:
     deploymentName: gpt-35-turbo-0125
 server:
   port: 8082
+
+epam:
+  dial:
+    deployment-names-api: https://ai-proxy.lab.epam.com/openai/deployments
+
