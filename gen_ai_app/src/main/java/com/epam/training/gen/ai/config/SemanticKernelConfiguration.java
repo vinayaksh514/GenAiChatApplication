@@ -1,6 +1,7 @@
 package com.epam.training.gen.ai.config;
 
 import com.azure.ai.openai.OpenAIAsyncClient;
+import com.epam.training.gen.ai.plugins.LightsPlugin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion;
@@ -8,6 +9,8 @@ import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.orchestration.InvocationReturnMode;
 import com.microsoft.semantickernel.orchestration.PromptExecutionSettings;
 import com.microsoft.semantickernel.orchestration.ToolCallBehavior;
+import com.microsoft.semantickernel.plugin.KernelPlugin;
+import com.microsoft.semantickernel.plugin.KernelPluginFactory;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
 import com.microsoft.semantickernel.services.chatcompletion.ChatHistory;
 import lombok.Data;
@@ -113,6 +116,31 @@ public class SemanticKernelConfiguration {
         List<String> description_keywords;
         int max_retry_attempts;
         String lifecycle_status;
+    }
+
+    /**
+     * Creates a {@link KernelPlugin} bean using a simple plugin.
+     *
+     * @return an instance of {@link KernelPlugin}
+     */
+    @Bean
+    public KernelPlugin kernelPlugin() {
+        return KernelPluginFactory.createFromObject(
+                new LightsPlugin(), "LightsPlugin");
+    }
+
+    /**
+     * Creates a {@link Kernel} bean to manage AI services and plugins.
+     *
+     * @param chatCompletionService the {@link ChatCompletionService} for handling completions
+     * @return an instance of {@link Kernel}
+     */
+    @Bean
+    public Kernel kernel(ChatCompletionService chatCompletionService, KernelPlugin kernelPlugin) {
+        return Kernel.builder()
+                .withAIService(ChatCompletionService.class, chatCompletionService)
+                .withPlugin(kernelPlugin)
+                .build();
     }
 
 }
