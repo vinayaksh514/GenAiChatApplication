@@ -1,6 +1,12 @@
 spring:
   application:
     name: genAi_chatApp
+  ai:
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        use-tls: false
 client:
   openai:
     key: dial-gw1gaf2ivv34ziy04hokk8n9mdn
@@ -12,4 +18,8 @@ server:
 epam:
   dial:
     deployment-names-api: https://ai-proxy.lab.epam.com/openai/deployments
+
+vector:
+  collection:
+    name: my_embeddings
 
