@@ -5,15 +5,19 @@ import com.epam.training.gen.ai.model.Chat;
 import com.epam.training.gen.ai.model.ChatBotResponse;
 import com.epam.training.gen.ai.model.ChatRequest;
 import com.epam.training.gen.ai.model.ChatResponse;
+import com.epam.training.gen.ai.service.DocumentSearchService;
 import com.epam.training.gen.ai.service.UserInputService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +28,10 @@ public class UserInputController {
     private final UserInputService userInputService;
     private final SimpleKernelHistory kernelHistory;
     private final RestTemplate restTemplate;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UserInputController.class);
+
+    @Autowired
+    private DocumentSearchService documentSearchService;
 
     @Value("${epam.dial.deployment-names-api}")
     private String DEPLOYMENT_NAMES_URL;
@@ -60,5 +68,17 @@ public class UserInputController {
     @GetMapping("/chat/plugin")
     public String chatHistory(@RequestParam String prompt){
         return userInputService.getChatHistory(prompt).toString();
+    }
+
+    @GetMapping("/augment")
+    public ResponseEntity<Map<String, String>> augment(@RequestParam String prompt) {
+        log.info("User prompt: " + prompt);
+
+        String result = documentSearchService.augmentedQuery(prompt);
+        log.info("Chat-bot response: " + result);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("output", result);
+        return ResponseEntity.ok(response);
     }
 }

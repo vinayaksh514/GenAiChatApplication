@@ -23,3 +23,7 @@ vector:
   collection:
     name: my_embeddings
 
+rag:
+  documents:
+    folder: src/main/resources/data
+

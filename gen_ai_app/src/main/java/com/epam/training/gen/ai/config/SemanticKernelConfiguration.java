@@ -75,7 +75,7 @@ public class SemanticKernelConfiguration {
      * Creates a {@link Kernel} bean to manage AI services and plugins.
      */
 
-    @Bean
+    //@Bean
     public Kernel kernel(ChatCompletionService chatCompletionService) {
         return Kernel.builder()
                 .withAIService(ChatCompletionService.class, chatCompletionService)
